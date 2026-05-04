@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import RecipeCard from "./components/RecipeCard";
 
 function App() {
@@ -46,23 +47,30 @@ function App() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <section>
-        <h2>Recipes</h2>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <section>
+              <h2>Recipes</h2>
 
-        {loading ? (
-          <p>Loading recipes...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : filteredRecipes.length === 0 ? (
-          <p>No recipes found</p>
-        ) : (
-          <div className="recipe-list">
-            {filteredRecipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-          </div>
-        )}
-      </section>
+              {loading ? (
+                <p>Loading recipes...</p>
+              ) : error ? (
+                <p>{error}</p>
+              ) : filteredRecipes.length === 0 ? (
+                <p>No recipes found</p>
+              ) : (
+                <div className="recipe-list">
+                  {filteredRecipes.map((recipe) => (
+                    <RecipeCard key={recipe.id} recipe={recipe} />
+                  ))}
+                </div>
+              )}
+            </section>
+          }
+        />
+      </Routes>
     </div>
   );
 }
