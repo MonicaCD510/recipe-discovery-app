@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import RecipeCard from "./components/RecipeCard";
+import RecipeDetail from "./pages/RecipeDetail";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -70,6 +71,8 @@ function App() {
             </section>
           }
         />
+
+        <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
       </Routes>
     </div>
   );
