@@ -4,6 +4,7 @@ import RecipeCard from "./components/RecipeCard";
 function App() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -17,6 +18,7 @@ function App() {
         const formatted = meals.map((meal) => ({
           id: meal.idMeal,
           name: meal.strMeal,
+          image: meal.strMealThumb,
         }));
 
         setRecipes(formatted);
@@ -24,6 +26,7 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
+        setError("Something went wrong. Please try again.");
         setLoading(false);
       });
   }, []);
@@ -48,6 +51,8 @@ function App() {
 
         {loading ? (
           <p>Loading recipes...</p>
+        ) : error ? (
+          <p>{error}</p>
         ) : filteredRecipes.length === 0 ? (
           <p>No recipes found</p>
         ) : (
