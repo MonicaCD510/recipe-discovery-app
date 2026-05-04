@@ -13,6 +13,10 @@ function App() {
 
       <section>
         <h2>Recipes</h2>
+
+        {recipes.map((recipe) => (
+          <p key={recipe.id}>{recipe.name}</p>
+        ))}
       </section>
     </div>
   );
