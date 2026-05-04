@@ -7,9 +7,18 @@ function App() {
     { id: 3, name: "Tacos" },
   ]);
 
+  const [search, setSearch] = useState("");
+
   return (
     <div className="app-container">
       <h1>Recipe Discovery App</h1>
+
+      <input
+        type="text"
+        placeholder="Search recipes..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
       <section>
         <h2>Recipes</h2>
