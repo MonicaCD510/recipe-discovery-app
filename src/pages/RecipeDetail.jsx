@@ -1,30 +1,35 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { FavoritesContext } from "../context/FavoritesContext";
 
-function RecipeDetail() {
-  const { recipeId } = useParams();
-  const [recipe, setRecipe] = useState(null);
+function RecipeCard({ recipe }) {
+  const { addFavorite, removeFavorite, isFavorite } =
+    useContext(FavoritesContext);
 
-  useEffect(() => {
-    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setRecipe(data.meals[0]);
-      });
-  }, [recipeId]);
+  const favorite = isFavorite(recipe.id);
 
-  if (!recipe) {
-    return <p>Loading recipe details...</p>;
-  }
+  const handleFavoriteClick = () => {
+    if (favorite) {
+      removeFavorite(recipe.id);
+    } else {
+      addFavorite(recipe.id);
+    }
+  };
 
   return (
-    <div>
-      <Link to="/">Back to recipes</Link>
-      <h2>{recipe.strMeal}</h2>
-      <img src={recipe.strMealThumb} alt={recipe.strMeal} width="300" />
-      <p>{recipe.strInstructions}</p>
+    <div className="recipe-card">
+      <img src={recipe.image} alt={recipe.name} width="100%" />
+      <p>{recipe.name}</p>
+
+      <button onClick={handleFavoriteClick}>
+        {favorite ? "Remove Favorite" : "Add Favorite"}
+      </button>
+
+      <br />
+
+      <Link to={`/recipe/${recipe.id}`}>View Details</Link>
     </div>
   );
 }
 
-export default RecipeDetail;
+export default RecipeCard;
