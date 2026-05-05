@@ -1,31 +1,34 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { FavoritesContext } from "../context/FavoritesContext";
+import { createContext, useState } from "react";
 
-function Favorites() {
-  const { favorites } = useContext(FavoritesContext);
+export const FavoritesContext = createContext();
+
+export function FavoritesProvider({ children }) {
+  const [favorites, setFavorites] = useState(() => {
+    const savedFavorites = localStorage.getItem("favorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
+
+  const addFavorite = (recipe) => {
+    const updatedFavorites = [...favorites, recipe];
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  const removeFavorite = (recipeId) => {
+    const updatedFavorites = favorites.filter((recipe) => recipe.id !== recipeId);
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  const isFavorite = (recipeId) => {
+    return favorites.some((recipe) => recipe.id === recipeId);
+  };
 
   return (
-    <div>
-      <h2>My Favorites</h2>
-
-      {favorites.length === 0 ? (
-        <p>No favorites yet</p>
-      ) : (
-        <div className="recipe-list">
-          {favorites.map((recipe) => (
-            <div key={recipe.id} className="recipe-card">
-              <img src={recipe.image} alt={recipe.name} width="100%" />
-              <p>{recipe.name}</p>
-              <Link to={`/recipe/${recipe.id}`}>View Details</Link>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <Link to="/">Back to Home</Link>
-    </div>
+    <FavoritesContext.Provider
+      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+    >
+      {children}
+    </FavoritesContext.Provider>
   );
 }
-
-export default Favorites;
