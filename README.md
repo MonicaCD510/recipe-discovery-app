@@ -1,16 +1,37 @@
-# React + Vite
+# Recipe Discovery App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based application that allows users to browse recipes, view details, and save their favorite recipes for easy access.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Fetches recipe data from an external API
+- Displays recipes in a card layout
+- View detailed information for each recipe
+- Add and remove recipes from favorites
+- Favorites page to manage saved recipes
+- Persistent storage using localStorage
+- Navigation using React Router
+- Global state management using React Context
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- JavaScript (ES6+)
+- React Router
+- Context API
+- CSS
 
-## Expanding the ESLint configuration
+## How It Works
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Recipes are fetched from TheMealDB API
+- Each recipe is displayed using a reusable RecipeCard component
+- Users can add or remove favorites using a toggle button
+- Favorites are stored in localStorage and managed globally with Context
+- The Favorites page reuses the RecipeCard component for consistent UI
+
+## Getting Started
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/MonicaCD510/recipe-discovery-app.git
