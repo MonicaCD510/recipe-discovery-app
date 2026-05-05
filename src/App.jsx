@@ -1,21 +1,13 @@
-import { useEffect, useState, useContext } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import RecipeCard from "./components/RecipeCard";
 import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./pages/Favorites";
-import { FavoritesContext } from "./context/FavoritesContext";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
-
-  const { favorites } = useContext(FavoritesContext);
 
   useEffect(() => {
-    setLoading(true);
-
     fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=")
       .then((res) => res.json())
       .then((data) => {
@@ -28,63 +20,27 @@ function App() {
         }));
 
         setRecipes(formatted);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setError("Something went wrong. Please try again.");
-        setLoading(false);
       });
   }, []);
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
-    <div className="app-container">
-      <h1>Recipe Discovery App</h1>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>
+            <h1>Recipe Discovery App</h1>
 
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/favorites">Favorites ({favorites.length})</Link>
-      </nav>
-
-      <input
-        type="text"
-        placeholder="Search recipes..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+            {recipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
+          </div>
+        }
       />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <section>
-              <h2>Recipes</h2>
-
-              {loading ? (
-                <p>Loading recipes...</p>
-              ) : error ? (
-                <p>{error}</p>
-              ) : filteredRecipes.length === 0 ? (
-                <p>No recipes found</p>
-              ) : (
-                <div className="recipe-list">
-                  {filteredRecipes.map((recipe) => (
-                    <RecipeCard key={recipe.id} recipe={recipe} />
-                  ))}
-                </div>
-              )}
-            </section>
-          }
-        />
-
-        <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
-        <Route path="/favorites" element={<Favorites />} />
-      </Routes>
-    </div>
+      <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
+      <Route path="/favorites" element={<Favorites />} />
+    </Routes>
   );
 }
 

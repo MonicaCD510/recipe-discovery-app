@@ -1,35 +1,15 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { FavoritesContext } from "../context/FavoritesContext";
+import { useParams } from "react-router-dom";
 
-function RecipeCard({ recipe }) {
-  const { addFavorite, removeFavorite, isFavorite } =
-    useContext(FavoritesContext);
-
-  const favorite = isFavorite(recipe.id);
-
-  const handleFavoriteClick = () => {
-    if (favorite) {
-      removeFavorite(recipe.id);
-    } else {
-      addFavorite(recipe.id);
-    }
-  };
+function RecipeDetail() {
+  const { recipeId } = useParams();
 
   return (
-    <div className="recipe-card">
-      <img src={recipe.image} alt={recipe.name} width="100%" />
-      <p>{recipe.name}</p>
-
-      <button onClick={handleFavoriteClick}>
-        {favorite ? "Remove Favorite" : "Add Favorite"}
-      </button>
-
-      <br />
-
-      <Link to={`/recipe/${recipe.id}`}>View Details</Link>
+    <div>
+      <h2>Recipe Detail</h2>
+      <p>Recipe ID: {recipeId}</p>
     </div>
   );
 }
 
-export default RecipeCard;
+export default RecipeDetail;
+
