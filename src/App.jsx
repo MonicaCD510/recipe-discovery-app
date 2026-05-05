@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import RecipeCard from "./components/RecipeCard";
 import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./pages/Favorites";
+import { FavoritesContext } from "./context/FavoritesContext";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+
+  const { favorites } = useContext(FavoritesContext);
 
   useEffect(() => {
     setLoading(true);
@@ -41,6 +44,11 @@ function App() {
   return (
     <div className="app-container">
       <h1>Recipe Discovery App</h1>
+
+      <nav>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/favorites">Favorites ({favorites.length})</Link>
+      </nav>
 
       <input
         type="text"
