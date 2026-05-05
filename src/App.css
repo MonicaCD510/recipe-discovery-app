@@ -21,3 +21,10 @@
 .recipe-card:hover {
   background-color: #eee;
 }
+.recipe-card {
+  margin: 20px;
+}
+
+nav {
+  margin-bottom: 20px;
+}
