@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import RecipeCard from "./components/RecipeCard";
 import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./pages/Favorites";
@@ -24,23 +24,29 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div>
-            <h1>Recipe Discovery App</h1>
+    <>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/favorites">Favorites</Link>
+      </nav>
 
-            {recipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-          </div>
-        }
-      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <h1>Recipe Discovery App</h1>
 
-      <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
-      <Route path="/favorites" element={<Favorites />} />
-    </Routes>
+              {recipes.map((recipe) => (
+                <RecipeCard key={recipe.id} recipe={recipe} />
+              ))}
+            </div>
+          }
+        />
+
+        <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
+        <Route path="/favorites" element={<Favorites />} />
+      </Routes>
+    </>
   );
 }
 
