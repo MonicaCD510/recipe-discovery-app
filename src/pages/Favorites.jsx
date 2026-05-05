@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { FavoritesContext } from "../context/FavoritesContext";
 import { Link } from "react-router-dom";
+import { FavoritesContext } from "../context/FavoritesContext";
 
 function Favorites() {
   const { favorites } = useContext(FavoritesContext);
@@ -12,9 +12,15 @@ function Favorites() {
       {favorites.length === 0 ? (
         <p>No favorites yet</p>
       ) : (
-        favorites.map((id) => (
-          <p key={id}>Recipe ID: {id}</p>
-        ))
+        <div className="recipe-list">
+          {favorites.map((recipe) => (
+            <div key={recipe.id} className="recipe-card">
+              <img src={recipe.image} alt={recipe.name} width="100%" />
+              <p>{recipe.name}</p>
+              <Link to={`/recipe/${recipe.id}`}>View Details</Link>
+            </div>
+          ))}
+        </div>
       )}
 
       <Link to="/">Back to Home</Link>
